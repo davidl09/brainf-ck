@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/bf.dir/main.c.o CMakeFiles/bf.dir/bf_v1.c.o -o bf 

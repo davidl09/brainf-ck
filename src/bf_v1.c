@@ -1,36 +1,25 @@
 #include "bf_v1.h"
 
-unsigned char* ptr;
-char* txt_ptr;
-
-
-unsigned char* evaluate_char(){
-    switch (*txt_ptr) {
-        case '+':
-            ++*ptr;
-            return ptr;
-        case '-':
-            --*ptr;
-            return ptr;
-        case '>':
-            return ++ptr;
-        case '<':
-            return --ptr;
-        case '.':
-            printf("%c", *ptr);
-            return ptr;
-        case ',':
-            *ptr = getc(stdin);
-            return ptr;
-        case '[':
-            return mov_bracket();
-        case ']':
-            return ptr;
-    }
+char* seek_forward(unsigned char* ptr, char* txt_ptr){
+    int num_brackets = 0;
+    do{
+        if(*txt_ptr == '[')
+            ++num_brackets;
+        else if(*txt_ptr == ']')
+            --num_brackets;
+        ++txt_ptr;
+    }while(num_brackets > 0);
+    return txt_ptr;
 }
 
-unsigned char* mov_bracket(){
-    int num_brackets = 0;
-
-
+char* seek_back(unsigned char* ptr, char* txt_ptr){
+int num_brackets = 0;
+    do{
+        if(*txt_ptr == '[')
+            --num_brackets;
+        else if(*txt_ptr == ']')
+            ++num_brackets;
+        --txt_ptr;
+    }while(num_brackets > 0);
+    return txt_ptr;
 }

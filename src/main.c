@@ -21,18 +21,53 @@ int main(int argc, char* argv[]){
     size_t len = ftell(fp);
     fseek(fp, 0, 0);
 
-    extern char* txt_ptr;
-    txt_ptr = malloc(len);
-    extern unsigned char* ptr;
-    ptr = malloc(30000);
-
-    for (int i = 0; i < 30000; ++i) {
-        ptr[i] = 0;
-    }
+    char* txt_ptr = calloc(1, len);
+    unsigned char* ptr = calloc(1, 30000);
 
     
 
+    char* ops = "+-<>.,[]"; //clean input
+    char temp;
+    int l = 0;
+    while((temp = fgetc(fp)) != EOF){
+        for (int i = 0; i < 8; ++i) {
+            if(txt_ptr[l] == ops[i]){
+                txt_ptr[l] = temp;
+                break;
+                }
+        }
+        ++l;
+    }
 
+    l = 0;
+
+    unsigned char* ptr_0 = ptr;
+    char* txt_ptr_0 = txt_ptr;
+    unsigned char* ref_ptr;
+
+    while(txt_ptr - txt_ptr_0 < len && ptr - ptr_0 < 30000 && *txt_ptr != 0){
+        switch (*txt_ptr) {
+            case '+':
+                ++*ptr;
+            case '-':
+                --*ptr;
+            case '>':
+                ++ptr;
+            case '<':
+                --ptr;
+            case '.':
+                printf("%c", *ptr);
+            case ',':
+                *ptr = getc(stdin);
+            case '[': 
+                (*ptr == 0 ? txt_ptr = seek_forward(ptr, txt_ptr) : ++txt_ptr);
+            case ']':
+                (*ptr != 0 ? txt_ptr = seek_back(ptr, txt_ptr) : ++txt_ptr);
+            default:
+                break;
+        }
+        ++txt_ptr;
+    }
 
     free(ptr);
     free(txt_ptr);

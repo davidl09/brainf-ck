@@ -1,0 +1,3 @@
+/home/davidl09/Desktop/C/brainf-ck/CMakeFiles/bf.dir
+/home/davidl09/Desktop/C/brainf-ck/CMakeFiles/edit_cache.dir
+/home/davidl09/Desktop/C/brainf-ck/CMakeFiles/rebuild_cache.dir

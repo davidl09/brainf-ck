@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-unsigned char* evaluate_char();
-unsigned char* mov_bracket();
+char* seek_forward(unsigned char* ptr, char* txt_ptr);
+char* seek_back(unsigned char* ptr, char* txt_ptr);
 
 #endif
