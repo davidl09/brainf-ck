@@ -1,4 +1,11 @@
-hw.c
+.cmake
+.vscode/
+bf
+LICENSE
+Makefile
+
+CMakeFiles/
+
 
 # Prerequisites
 *.d
