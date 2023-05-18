@@ -32,10 +32,10 @@ int main(int argc, char* argv[]){
     while((temp = fgetc(fp)) != EOF){
         for (int i = 0; i < 8; ++i) {
             if(temp == ops[i]){
-                txt_ptr[l] = temp;
+                txt_ptr[len] = temp;
                 ++len;
                 break;
-                }
+            }
         }
         ++l;
     }
