@@ -28,11 +28,12 @@ int main(int argc, char* argv[]){
 
     char* ops = "+-<>.,[]"; //clean input
     char temp;
-    int l = 0;
+    int l = len = 0;
     while((temp = fgetc(fp)) != EOF){
         for (int i = 0; i < 8; ++i) {
-            if(txt_ptr[l] == ops[i]){
+            if(temp == ops[i]){
                 txt_ptr[l] = temp;
+                ++len;
                 break;
                 }
         }
@@ -40,36 +41,52 @@ int main(int argc, char* argv[]){
     }
 
     l = 0;
+    fclose(fp);
 
-    unsigned char* ptr_0 = ptr;
-    char* txt_ptr_0 = txt_ptr;
+    for (int i = 0; i < len; ++i) {
+        l = (txt_ptr[i] == '[' ? l + 1 : (txt_ptr[i] == ']' ? l - 1 : l));
+    }
+    if(l != 0){
+        fprintf(stderr, "Mismatched brackets\n");
+        return 1;
+    }
+
+
+    const unsigned char* ptr_0 = ptr;
+    const char* txt_ptr_0 = txt_ptr;
     unsigned char* ref_ptr;
 
     while(txt_ptr - txt_ptr_0 < len && ptr - ptr_0 < 30000 && *txt_ptr != 0){
-        switch (*txt_ptr) {
-            case '+':
-                ++*ptr;
-            case '-':
-                --*ptr;
-            case '>':
-                ++ptr;
-            case '<':
-                --ptr;
-            case '.':
-                printf("%c", *ptr);
-            case ',':
-                *ptr = getc(stdin);
-            case '[': 
-                (*ptr == 0 ? txt_ptr = seek_forward(ptr, txt_ptr) : ++txt_ptr);
-            case ']':
-                (*ptr != 0 ? txt_ptr = seek_back(ptr, txt_ptr) : ++txt_ptr);
-            default:
-                break;
-        }
+        
+        if(*txt_ptr ==  '+')
+            ++(*ptr);
+
+        else if(*txt_ptr ==  '-')
+            --(*ptr);
+
+        else if(*txt_ptr ==  '>')
+            ++ptr;
+
+        else if(*txt_ptr ==  '<')
+            --ptr;
+
+        else if(*txt_ptr ==  '.')
+            printf("%c", *ptr);
+
+        else if(*txt_ptr ==  ',')
+            *ptr = getc(stdin);
+
+        else if(*txt_ptr ==  '[')
+            (*ptr == 0 ? txt_ptr = seek_forward(ptr, txt_ptr) : txt_ptr);
+
+        else if(*txt_ptr ==  ']')
+            (*ptr != 0 ? txt_ptr = seek_back(ptr, txt_ptr) : txt_ptr);
+
+        else continue;
         ++txt_ptr;
     }
 
-    free(ptr);
-    free(txt_ptr);
+    free((void*)ptr_0);
+    free((void*)txt_ptr_0);
     return 0;
 }
