@@ -3,7 +3,8 @@
 bf
 LICENSE
 Makefile
-
+*.txt
+*.cmake
 CMakeFiles/
 
 

@@ -88,5 +88,6 @@ int main(int argc, char* argv[]){
 
     free((void*)ptr_0);
     free((void*)txt_ptr_0);
+    printf("\nProgram executed successfully\n");
     return 0;
 }
